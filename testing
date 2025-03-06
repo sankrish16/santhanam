@@ -1,0 +1,204 @@
+<!-- Condition for TEXT_AREA -->
+<tr
+  *ngIf="fieldTypeNm === 'TEXT_AREA'"
+  [ngClass]="[classFieldTr, classRequired, classRadioTr, 'verticaltopalign']"
+>
+  <td>
+    <ng-container *ngIf="procCstmDatFldScrnItem.labelBoldInd?.charAt(0) === 'Y'; else normalLabel">
+      <b>{{ procCstmDatFldScrnItem.labelTxt }}:</b>
+    </ng-container>
+    <ng-template #normalLabel>
+      <b>{{ procCstmDatFldScrnItem.labelTxt }}:</b>
+    </ng-template>
+
+    <ng-container *ngIf="procCstmDatFldScrnItem.fldRqrCd?.charAt(0) === 'R'">
+      <i class="fa fa-asterisk"></i>
+    </ng-container>
+  </td>
+
+  <td class="field">
+    <textarea
+      [attr.id]="cstmDatFldCd"
+      [attr.name]="'customDataFieldDto[' + loopCounter?.index + '].dataFieldValue'"
+      [attr.maxlength]="fldLenVal"
+      [attr.rows]="3"
+      [attr.cols]="30"
+      [ngClass]="'form-control'"
+      [attr.readonly]="fieldReadOnly ? true : null"
+      [attr.additionalProperties]="proccstmDatFldScrnItem?.additionalProperties"
+    >
+      {{ procCstmDatFldScrnItem.procCstmDatFld?.txtToAdd }}
+    </textarea>
+   
+    <small class="text-muted" [ngStyle]="{'color': procCstmDatFldScrnItem.fldMsgColorCd}">
+      {{ procCstmDatFldScrnItem.fldMsgTxt }}
+    </small>
+  </td>
+</tr>
+
+<!-- Condition for INFO_LABEL -->
+<tr *ngIf="fieldTypeNm === 'INFO_LABEL'">
+  <td colspan="2" style="color: #0000FF">
+    <span [attr.id]="cstmDatFldCd"></span>
+    {{ procCstmDatFldScrnItem.labelTxt }}
+  </td>
+</tr>
+  <!-- NUMERIC or CURRENCY -->
+<tr 
+  *ngIf="fieldTypeNm === 'NUMERIC' || fieldTypeNm === 'CURRENCY'" 
+  [ngClass]="[classFieldTr, classRequired, classRadioTr, 'verticaltopalign']"
+>
+  <td>
+    <ng-container *ngIf="procCstmDatFldScrnItem.labelBoldInd?.charAt(0) === 'Y'; else normalLabel">
+      <b>{{ procCstmDatFldScrnItem.labelTxt }}:</b>
+    </ng-container>
+    <ng-template #normalLabel>
+      <b>{{ procCstmDatFldScrnItem.labelTxt }}:</b>
+    </ng-template>
+
+    <ng-container *ngIf="procCstmDatFldScrnItem.fldRqrCd?.charAt(0) === 'R'">
+      <i class="fa fa-asterisk"></i>
+    </ng-container>
+  </td>
+
+  <td class="field">
+    <ng-container *ngIf="fieldTypeNm === 'CURRENCY'; else numericInput">
+      <nobr style="border-spacing:0px;">
+        <span class="input-group-addon" style="height: 34px; padding-top:2px; border: 1px solid #ccc; width:10px;">$</span>
+        <input type="text"
+          placeholder="XX.XX"
+          class="form-control currency"
+          [id]="cstmDatFldCd"
+          [name]="'customDataFieldDto[' + loopCounter?.index + '].dataFieldValue'"
+          [attr.readonly]="fieldReadOnly ? true : null"
+          [size]="fldLenVal"
+          [maxlength]="fldLenVal"
+          [style.width.px]="fldLenVal + 6"
+          [attr.additionalProperties]="procCstmDatFldScrnItem?.additionalProperties"
+          [value]="procCstmDatFldScrnItem.procCstmDatFld?.textToAdd"
+        />
+      </nobr>
+    </ng-container>
+
+    <ng-template #numericInput>
+      <input type="number"
+        class="form-control custom-numeric"
+        [id]="cstmDatFldCd"
+        [name]="'customDataFieldDto[' + loopCounter?.index + '].dataFieldValue'"
+        [attr.readonly]="fieldReadOnly ? true : null"
+        [size]="fldLenVal"
+        [maxlength]="fldLenVal"
+        [style.width.px]="fldLenVal + 8"
+        [attr.additionalProperties]="procCstmDatFldScrnItem?.additionalProperties"
+        [value]="procCstmDatFldScrnItem.procCstmDatFld?.textToAdd"
+      />
+    </ng-template>
+
+    <small class="text-muted" [ngStyle]="{'color': procCstmDatFldScrnItem.fldMsgColorCd}">
+      {{ procCstmDatFldScrnItem.fldMsgTxt }}
+    </small>
+  </td>
+</tr>
+
+<!-- CHECKBOX -->
+<tr *ngIf="fieldTypeNm === 'CHECKBOX'" [ngClass]="[classFieldTr, classRequired, classRadioTr, 'verticaltopalign']">
+  <td width="25%">
+    <ng-container *ngIf="procCstmDatFldScrnItem.labelBoldInd?.charAt(0) === 'Y'; else normalCheckboxLabel">
+      <b>{{ procCstmDatFldScrnItem.labelTxt }}:</b>
+    </ng-container>
+    <ng-template #normalCheckboxLabel>
+      <b>{{ procCstmDatFldScrnItem.labelTxt }}:</b>
+    </ng-template>
+
+    <ng-container *ngIf="procCstmDatFldScrnItem.fldRqrCd?.charAt(0) === 'R'">
+      <i class="fa fa-asterisk"></i>
+    </ng-container>
+  </td>
+
+  <td width="25%" class="field">
+    <input type="checkbox"
+      [id]="cstmDatFldCd"
+      [name]="'customDataFieldDto[' + loopCounter?.index + '].dataFieldValue'"
+      [attr.readonly]="fieldReadOnly ? true : null"
+      [checked]="procCstmDatFldScrnItem.procCstmDatFld?.checked"
+    />
+
+    <small class="text-muted" [ngStyle]="{'color': procCstmDatFldScrnItem.fldMsgColorCd}">
+      {{ procCstmDatFldScrnItem.fldMsgTxt }}
+    </small>
+  </td>
+</tr>
+
+<!-- RADIO -->
+<tr *ngIf="fieldTypeNm === 'RADIO'" [ngClass]="[classFieldTr, classRequired, classRadioTr, 'verticaltopalign']">
+  <td width="25%">
+    <ng-container *ngIf="procCstmDatFldScrnItem.labelBoldInd?.charAt(0) === 'Y'; else normalRadioLabel">
+      <b>{{ procCstmDatFldScrnItem.labelTxt }}:</b>
+    </ng-container>
+    <ng-template #normalRadioLabel>
+      <b>{{ procCstmDatFldScrnItem.labelTxt }}:</b>
+    </ng-template>
+
+    <ng-container *ngIf="procCstmDatFldScrnItem.fldRqrCd?.charAt(0) === 'R'">
+      <i class="fa fa-asterisk"></i>
+    </ng-container>
+  </td>
+
+  <td width="25%" class="field">
+    <ng-container *ngFor="let dataFieldValues of procCstmDatFldScrnItem.procCstmDatFld?.cstmDatFld?.cstmDatFldVldVals">
+      <input type="radio"
+        [id]="dataFieldValues.id.cstmDatFldVldValTxt"
+        [name]="'customDataFieldDto[' + loopCounter?.index + '].dataFieldValue'"
+        [attr.customAttr]="cstmDatFldCd"
+        [value]="dataFieldValues.id.cstmDatFldVldValTxt"
+        [checked]="dataFieldValues.id.cstmDatFldVldValTxt === procCstmDatFldScrnItem.procCstmDatFld?.selectedOption"
+      />
+      {{ dataFieldValues.id.cstmDatFldVldValTxt }}
+      <br />
+    </ng-container>
+
+    <small class="text-muted" [ngStyle]="{'color': procCstmDatFldScrnItem.fldMsgColorCd}">
+      {{ procCstmDatFldScrnItem.fldMsgTxt }}
+    </small>
+  </td>
+</tr>
+
+<!-- DROP DOWN -->
+<tr *ngIf="fieldTypeNm === 'DROP_DOWN'" [ngClass]="[classFieldTr, classRequired, classRadioTr, 'verticaltopalign']">
+  <td width="25%">
+    <ng-container *ngIf="procCstmDatFldScrnItem.labelBoldInd?.charAt(0) === 'Y'; else normalDropdownLabel">
+      <b>{{ procCstmDatFldScrnItem.labelTxt }}:</b>
+    </ng-container>
+    <ng-template #normalDropdownLabel>
+      <b>{{ procCstmDatFldScrnItem.labelTxt }}:</b>
+    </ng-template>
+
+    <ng-container *ngIf="procCstmDatFldScrnItem.fldRqrCd?.charAt(0) === 'R'">
+      <i class="fa fa-asterisk"></i>
+    </ng-container>
+    &nbsp;
+  </td>
+
+  <td width="25%" class="field">
+    <select class="form-control"
+      [name]="'customDataFieldDto[' + loopCounter?.index + '].dataFieldValue'"
+      [attr.readonly]="fieldReadOnly ? true : null"
+      [id]="cstmDatFldCd"
+      style="width:185px;"
+    >
+      <option value="0">Select One</option>
+      <ng-container *ngFor="let dataFieldValues of procCstmDatFldScrnItem.procCstmDatFld?.cstmDatFld?.cstmDatFldVldVals">
+        <option 
+          [value]="dataFieldValues.id.cstmDatFldVldValTxt"
+          [selected]="dataFieldValues.id.cstmDatFldVldValTxt === procCstmDatFldScrnItem.procCstmDatFld?.selectedOption"
+        >
+          {{ dataFieldValues.id.cstmDatFldVldValTxt }}
+        </option>
+      </ng-container>
+    </select>
+
+    <small class="text-muted" [ngStyle]="{'color': procCstmDatFldScrnItem.fldMsgColorCd}">
+      {{ procCstmDatFldScrnItem.fldMsgTxt }}
+    </small>
+  </td>
+</tr>
